@@ -9,7 +9,7 @@ The website of Shiso (食序 in Chinese), an app for iPhone: home, privacy polic
 | Support | `support/index.html` | `zh/support/index.html` |
 | A shared dish | `r/index.html`, both languages | |
 
-`assets/site.css` holds the styles. Its colors, type and components come from the app (Design Direction in the app repo's `agents.md`). `assets/site.js` remembers the language and the light or dark choice, puts the contact address together (see Contact below), and runs the plate palette on the home page: every plate's place comes from one number, so moving, swiping and spinning all glide along the arc. English is the default: a visitor who picks Chinese is sent to the Chinese page from then on, and the choice stays in that browser.
+`assets/site.css` holds the styles. Its colors, type and components come from the app (Design Direction in the app repo's `agents.md`). `assets/site.js` remembers the language and the light or dark choice, puts the contact address together (see Contact below), runs the plate palette on the home page (every plate's place comes from one number, so moving, swiping and spinning all glide along the arc), and moves the features' rows of screens. English is the default: a visitor who picks Chinese is sent to the Chinese page from then on, and the choice stays in that browser.
 
 To preview, serve the folder with any static server, for example `python3 -m http.server`.
 
@@ -36,7 +36,29 @@ The English name was `Mise` until November 8, 2026. The `mise.lang` and `mise.th
 
 ## The first screen
 
-The slogan stays put as the page's `h1`, set small. Under it a big title and a line take turns, one turn every four seconds. A turn is one `.hero-title`, one `.lede` and one dot, matched by `data-turn` and `data-pick`; to add one, add all three in both languages. The theme green marks the part of the title to remember, the second line as a rule (`em`).
+The slogan stays put as the page's `h1`, set small. Under it a big title and a line take turns, one turn every four seconds. A turn is one `.hero-title`, one `.lede` and one dot, matched by `data-turn` and `data-pick`; to add one, add all three in both languages. The theme green marks the part of the title to remember, the second line as a rule (`em`). The three turns are the three features below, in their order.
+
+## The features
+
+The home page shows three features, in this order of importance: the recipe library (`#library`), dish photos (`#photos`) and sharing (`#share`). Each first says what it's for, with an eyebrow, a heading and a line, then shows a row of the app's screens to swipe through, with a line under each. A row is a plain list that scrolls sideways and snaps to each screen. On wider pages two buttons move it one screen at a time (`createShots` in `assets/site.js`); on phones it's swiped, and the next screen peeks in at the edge.
+
+The screens are `assets/shots/<en|zh>/<slot>.png`, 600 × 1300 pixels, an iPhone screenshot's shape. Until the app's own screenshots are in, they're placeholders that say 截图待补 / Screenshot to come. To change one, replace its file and keep the name; a screen of another shape needs its `width` and `height` changed in both pages.
+
+| Slot | Shows |
+| --- | --- |
+| `library-recipes` | 食谱库, the dishes on their plates |
+| `library-kitchen` | 厨房, ingredients with their units and stores |
+| `library-recipe` | A recipe, with its ingredients and steps |
+| `library-plan` | 餐食, the days ahead and their meals |
+| `library-shopping` | 采购, the list grouped by store |
+| `photos-camera` | The plate camera |
+| `photos-album` | 成品照, a dish's photos over time |
+| `photos-snap` | 拍一道菜, then 是哪道菜？ |
+| `photos-new` | A new recipe started from a photo |
+| `share-lyric` | The lyric card (歌词卡) |
+| `share-cards` | The numbered cards a long lyric card runs on over |
+| `share-qr` | A card's QR code, with 扫码收下这道菜 |
+| `share-import` | 导入这道菜, a shared dish opening in the app |
 
 ## Changing text
 

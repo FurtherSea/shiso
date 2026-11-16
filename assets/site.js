@@ -1,5 +1,5 @@
 // 食序 Shiso website: remembers the language and the light or dark choice, puts the contact address together, and on the
-// home page turns the first screen's text and runs the plate palette.
+// home page turns the first screen's text, runs the plate palette and moves the features' rows of screens.
 (function () {
   'use strict';
 
@@ -44,6 +44,8 @@
 
   var stage = document.querySelector('.stage');
   if (stage) createPalette(stage);
+
+  document.querySelectorAll('[data-shots]').forEach(createShots);
 
   /* The palette: every plate's place is worked out from one number, `pos`, the position along the ring of dishes.
      Moving, swiping and spinning only change that number, so the plates glide along the arc at any speed. A plate
@@ -298,6 +300,34 @@
       view.removeEventListener('pointerup', onPointerEnd);
       view.removeEventListener('pointercancel', onPointerEnd);
     };
+  }
+
+  /* A feature's row of screens. It scrolls by touch, trackpad or keyboard on its own; the two buttons, shown on wider
+     pages, move it one screen at a time and dim at either end. */
+  function createShots(feature) {
+    var view = feature.ownerDocument.defaultView;
+    var track = feature.querySelector('.shots');
+    var buttons = Array.prototype.slice.call(feature.querySelectorAll('[data-step]'));
+    function stepWidth() {
+      var shot = track.querySelector('.shot');
+      if (!shot) return track.clientWidth;
+      return shot.getBoundingClientRect().width + (parseFloat(view.getComputedStyle(track).columnGap) || 0);
+    }
+    function update() {
+      var end = track.scrollWidth - track.clientWidth - 2;
+      buttons.forEach(function (button) {
+        button.disabled = Number(button.dataset.step) < 0 ? track.scrollLeft <= 2 : track.scrollLeft >= end;
+      });
+    }
+    buttons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        var still = view.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        track.scrollBy({ left: Number(button.dataset.step) * stepWidth(), behavior: still ? 'auto' : 'smooth' });
+      });
+    });
+    track.addEventListener('scroll', update, { passive: true });
+    if (view.ResizeObserver) new view.ResizeObserver(update).observe(track);
+    update();
   }
 
   /* The contact address. It's never in a page in one piece, so a scraper reading the HTML finds no name@domain address
