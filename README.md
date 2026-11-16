@@ -42,21 +42,21 @@ The slogan stays put as the page's `h1`, set small. Under it a big title and a l
 
 The home page shows three features, in this order of importance: the recipe library (`#library`), dish photos (`#photos`) and sharing (`#share`). Each first says what it's for, with an eyebrow, a heading and a line, then shows a row of the app's screens to swipe through, with a line under each. A row is a plain list that scrolls sideways and snaps to each screen. On wider pages two buttons move it one screen at a time (`createShots` in `assets/site.js`); on phones it's swiped, and the next screen peeks in at the edge.
 
-The screens are the app's own, in `assets/shots/<en|zh>/<slot>.webp`. They're 2.1 screenshots from an iPhone 17 Pro Max (1320 × 2868), with the status bar's top 144 pixels cut off, then scaled to 600 × 1238 and saved as WebP at quality 82. A slot still waiting for its screenshot has a placeholder `.png` of the same size that says 截图待补 / Screenshot to come. To change a screen, treat the new capture the same way and keep its name. A screen of another shape needs its `width` and `height` changed in both pages.
+The screens are the app's own, in `assets/shots/<en|zh>/<slot>.webp`. They're 2.1 screenshots from an iPhone 17 Pro Max (1320 × 2868), with the status bar's top 144 pixels cut off, then scaled to 600 × 1238 and saved as WebP at quality 82. On 拍一道菜 the keyboard was replaced with the sheet's blank background, as with the keyboard dismissed. The captures come from the app repo's screenshot pipeline (`TEST_RUNNER_SITE_SCREENSHOTS=en,zh-Hans`). To change a screen, treat the new capture the same way and keep its name. A screen of another shape needs its `width` and `height` changed in both pages.
 
 | Slot | Shows | Screen |
 | --- | --- | --- |
 | `library-recipes` | 食谱库, the dishes on their plates | 2.1 capture |
 | `library-kitchen` | 厨房, ingredients with their units and stores | 2.1 capture |
 | `library-recipe` | 编辑食谱, the ingredients and the steps with their photos | 2.1 capture |
-| `library-plan` | 餐食, the days ahead and their meals | placeholder |
+| `library-plan` | 餐食, the days ahead and their meals | 2.1 capture |
 | `library-shopping` | 采购, the list grouped by store | 2.1 capture |
 | `photos-camera` | The plate camera | 2.1 capture |
 | `photos-album` | 成品照, a dish's photos over time | 2.1 capture |
-| `photos-snap` | 拍一道菜, then 是哪道菜？ or a new dish | placeholder |
+| `photos-snap` | 拍一道菜, then 是哪道菜？ or a new dish | 2.1 capture |
 | `share-lyric` | 分享这道菜 with the lyric card and its QR code | 2.1 capture |
-| `share-cards` | The numbered cards a long lyric card runs on over | placeholder |
-| `share-import` | 导入这道菜, a shared dish opening in the app | placeholder |
+| `share-cards` | The numbered cards a long lyric card runs on over | 2.1 capture |
+| `share-import` | 导入这道菜, a shared dish opening in the app | 2.1 capture |
 
 ## Changing text
 
