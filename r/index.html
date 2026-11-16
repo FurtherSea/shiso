@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>食序</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F4F2E8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#13140E" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/icon/favicon-64.png" sizes="64x64" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icon/apple-touch-icon.png">
+<script>try{var t=localStorage.getItem("mise.theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>
+// Before the first paint: the page's language from the browser, until the dish's own language takes over, and Safari's
+// Smart App Banner. Safari reads the banner's tag as the page loads, so it's written here, with this dish's link as
+// app-argument: once Shiso is installed from the banner, the banner's Open hands the link to the app, which adds the dish.
+(function () {
+  document.documentElement.lang = /^zh/i.test(navigator.language || '') ? 'zh-Hans' : 'en';
+  var key = new URLSearchParams(location.search).get('k');
+  var page = location.origin + location.pathname.replace(/index\.html$/, '');
+  var meta = document.createElement('meta');
+  meta.name = 'apple-itunes-app';
+  meta.content = 'app-id=6788616705, app-argument=' + page + (/^[0-9A-Za-z]{16}$/.test(key || '') ? '?k=' + key : '');
+  document.head.appendChild(meta);
+})();
+</script>
+<link rel="stylesheet" href="../assets/site.css">
+<noscript><style>.shared-top, .shared-main, .shared-foot { display: none; }</style></noscript>
+</head>
+<body>
+<div class="site shared" id="page">
+
+<header class="shared-col shared-top">
+  <a class="shared-brand" id="brand" href="../zh/">食序</a>
+  <span class="shared-slogan" id="slogan">陪你记录的个性化食谱书</span>
+</header>
+
+<main class="shared-col shared-main" id="main" aria-busy="true">
+  <div class="shared-state" id="loading">
+    <div class="shared-plate pulse" aria-hidden="true"><img src="../assets/plates/porcelain.svg" alt="" width="200" height="204"></div>
+    <p class="vh" id="loading-text" role="status">正在打开这道菜</p>
+  </div>
+
+  <article class="shared-dish" id="dish" hidden>
+    <div class="shared-head">
+      <div class="shared-plate" id="dish-plate" aria-hidden="true"><img id="dish-plate-art" src="../assets/plates/porcelain.svg" alt="" width="200" height="204"><img class="shared-photo" id="dish-photo" alt="" hidden><span class="shared-initial" id="dish-initial"></span></div>
+      <h1 class="shared-title u" id="dish-title"></h1>
+      <p class="shared-meta u" id="dish-meta"></p>
+    </div>
+    <section class="shared-card shared-lines" id="lines" aria-labelledby="lines-title">
+      <h2 id="lines-title">食材</h2>
+      <ul id="lines-list"></ul>
+    </section>
+    <section class="shared-card shared-steps" id="steps" aria-labelledby="steps-title">
+      <h2 id="steps-title">做法</h2>
+      <ol id="steps-list"></ol>
+    </section>
+  </article>
+
+  <div class="shared-state" id="gone" hidden>
+    <div class="shared-plate faded" aria-hidden="true"><img src="../assets/plates/porcelain.svg" alt="" width="200" height="204"></div>
+    <h1 id="gone-title">这道菜已经不再分享</h1>
+  </div>
+
+  <div class="shared-state" id="failed" hidden>
+    <svg class="shared-wifi" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 8.8a14 14 0 0 1 19 0M5.5 12.2a9.5 9.5 0 0 1 13 0M8.6 15.5a5 5 0 0 1 6.8 0"/><path d="M12 19h.01"/></svg>
+    <h1 id="failed-title">没连上网</h1>
+    <button class="btn plain" id="retry" type="button">再试一次</button>
+  </div>
+</main>
+
+<footer class="shared-foot">
+  <div class="shared-col shared-foot-in">
+    <a class="btn pri" id="get" href="https://apps.apple.com/app/id6788616705">在 App Store 下载食序</a>
+    <p class="shared-hint" id="hint" hidden>装好后点顶上的「打开」，这道菜就会导入</p>
+  </div>
+</footer>
+
+<noscript>
+  <main class="lost">
+    <img class="app-icon icon-l" src="../assets/icon/icon-256.png" alt="" width="72" height="72"><img class="app-icon icon-d" src="../assets/icon/icon-dark-256.png" alt="" width="72" height="72">
+    <h1><span lang="zh-Hans">食序</span> · Shiso</h1>
+    <p><span lang="zh-Hans">开启 JavaScript 后才能看到这道菜。</span><br>Turn on JavaScript to see this dish.</p>
+    <a class="btn pri" href="https://apps.apple.com/app/id6788616705">App Store</a>
+  </main>
+</noscript>
+
+</div>
+
+<div class="wechat" id="wechat" role="note" hidden>
+  <svg viewBox="0 0 120 110" aria-hidden="true"><path d="M14 104C40 96 84 70 100 14"/><path d="M86 22l14-10 4 17"/></svg>
+  <p><span id="wechat-1">点右上角 ···</span><br><span id="wechat-2">选「在浏览器打开」</span></p>
+</div>
+
+<script>
+// 食序 Shiso: the page a dish card's QR code opens where the app isn't installed (UI canvas 二十七 A⑧, 四十九 A17 and A18).
+// It reads the dish the app put in the container's public database and offers the app. Everything the sharer wrote goes
+// on the page as text (textContent), never as HTML.
+(function () {
+  'use strict';
+
+  // —— CloudKit ——
+  // A production API token for the container: CloudKit Console › API Access › API Tokens. It can only do what the
+  // container lets anyone do (read SharedRecipe records), so it's meant to sit in a page. Until it's set, every dish
+  // shows as 没能打开这道菜.
+  var CLOUDKIT_API_TOKEN = 'PASTE_THE_PRODUCTION_API_TOKEN_HERE';
+  var CLOUDKIT_CONTAINER = 'iCloud.com.junhao.mise';
+  var CLOUDKIT_ENVIRONMENT = 'production';
+  var CLOUDKIT_JS = 'https://cdn.apple-cloudkit.com/ck/2/cloudkit.js';
+  var RECORD_TYPE = 'SharedRecipe';
+
+  var COPY = {
+    zh: {
+      brand: '食序', home: '../zh/', slogan: '陪你记录的个性化食谱书', page: '食序', dishPage: '%@ · 食序',
+      lines: '食材', steps: '做法', by: '%@分享', minutes: '%d 分钟', servings: '%d 人份', serving: '%d 人份',
+      get: '在 App Store 下载食序', hint: '装好后点顶上的「打开」，这道菜就会导入',
+      loading: '正在打开这道菜', gone: '这道菜已经不再分享', offline: '没连上网', failed: '没能打开这道菜', retry: '再试一次',
+      wechat: ['点右上角 ···', '选「在浏览器打开」']
+    },
+    en: {
+      brand: 'Shiso', home: '../', slogan: 'Cooking that grows with you', page: 'Shiso', dishPage: '%@ · Shiso',
+      lines: 'Ingredients', steps: 'Steps', by: 'Shared by %@', minutes: '%d min', servings: '%d servings', serving: '%d serving',
+      get: 'Download Shiso on the App Store', hint: 'Once it’s installed, tap Open at the top to add this dish',
+      loading: 'Opening this dish', gone: 'This dish is no longer shared', offline: 'You’re offline', failed: 'Couldn’t open this dish', retry: 'Try again',
+      wechat: ['Tap ··· at the top right', 'then choose Open in Browser']
+    }
+  };
+
+  // The five plates the app draws, by the names the app stores (PlateStyle), with the color of the character on each.
+  var PLATES = {
+    porcelain: '#5A4636',
+    blueAndWhite: '#2C4C86',
+    stoneware: '#6B4F33',
+    blackGlaze: '#EADFCB',
+    bamboo: '#7A5524'
+  };
+
+  var root = document.documentElement;
+  var params = new URLSearchParams(location.search);
+  var key = params.get('k') || '';
+  var demo = params.get('demo');
+  var agent = navigator.userAgent;
+  var inWeChat = /MicroMessenger/i.test(agent) || (demo !== null && params.get('wechat') === '1');
+  // Only iOS Safari shows the Smart App Banner, so only there does the line about its Open make sense.
+  var inSafari = /iP(hone|od|ad)/.test(agent) && /Safari\//.test(agent) && !/CriOS|FxiOS|EdgiOS|OPiOS|GSA|MicroMessenger/.test(agent);
+  var $ = function (id) { return document.getElementById(id); };
+  var lang = 'zh';
+  var cloudKit = null;
+
+  function text(id, value) { $(id).textContent = value; }
+
+  // A function, not a string, so a name holding $& or $1 stays as written.
+  function format(template, value) { return template.replace(/%@|%d/, function () { return String(value); }); }
+
+  // The page's own words in Chinese or English, from the dish's language once it's read, from the browser's before.
+  function setLanguage(language) {
+    lang = /^zh/i.test(language || '') ? 'zh' : 'en';
+    var copy = COPY[lang];
+    root.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+    $('page').classList.toggle('zh', lang === 'zh');
+    text('brand', copy.brand);
+    $('brand').setAttribute('href', copy.home);
+    text('slogan', copy.slogan);
+    text('lines-title', copy.lines);
+    text('steps-title', copy.steps);
+    text('get', copy.get);
+    text('hint', copy.hint);
+    text('loading-text', copy.loading);
+    text('gone-title', copy.gone);
+    text('retry', copy.retry);
+    text('wechat-1', copy.wechat[0]);
+    text('wechat-2', copy.wechat[1]);
+    document.title = copy.page;
+  }
+
+  function show(state) {
+    ['loading', 'dish', 'gone', 'failed'].forEach(function (id) { $(id).hidden = id !== state; });
+    $('main').setAttribute('aria-busy', String(state === 'loading'));
+    // The line about the banner's Open is for a dish that can still be added, in Safari.
+    $('hint').hidden = !(state === 'dish' && inSafari && !inWeChat);
+  }
+
+  // The first character of the name, as the app puts it on the plate of a dish without a photo.
+  function initial(title) {
+    var trimmed = title.trim();
+    if (window.Intl && Intl.Segmenter) {
+      var first = new Intl.Segmenter().segment(trimmed)[Symbol.iterator]().next().value;
+      return first ? first.segment.toUpperCase() : '';
+    }
+    return (Array.from(trimmed)[0] || '').toUpperCase();
+  }
+
+  function listOf(value) {
+    return Array.isArray(value) ? value : [];
+  }
+
+  function showDish(dish, photoURL) {
+    var title = typeof dish.title === 'string' ? dish.title.replace(/\s+/g, ' ').trim() : '';
+    if (!title) return showFailure({});
+    setLanguage(dish.language);
+    var copy = COPY[lang];
+    var dishLanguage = ['zh-Hans', 'zh-Hant', 'en'].indexOf(dish.language) >= 0 ? dish.language : root.lang;
+    document.title = format(copy.dishPage, title);
+
+    var plate = Object.prototype.hasOwnProperty.call(PLATES, dish.plate) ? dish.plate : 'porcelain';
+    $('dish-plate-art').src = '../assets/plates/' + plate + '.svg';
+    // The photo in the plate's well, as the app shows it; the name's first character while there's none, or if it
+    // doesn't load. While it loads, the plate stays empty.
+    var mark = $('dish-initial');
+    mark.textContent = initial(title);
+    mark.style.color = PLATES[plate];
+    var photo = $('dish-photo');
+    photo.hidden = true;
+    photo.onload = function () { photo.hidden = false; mark.hidden = true; };
+    photo.onerror = function () { photo.hidden = true; mark.hidden = false; };
+    mark.hidden = Boolean(photoURL);
+    if (photoURL) photo.src = photoURL; else photo.removeAttribute('src');
+
+    text('dish-title', title);
+    $('dish-title').lang = dishLanguage;
+    // 小林分享 · 20 分钟 · 2 人份, leaving out what the dish doesn't say. The time and the servings never break inside.
+    var meta = [];
+    var chef = typeof dish.chef === 'string' ? dish.chef.trim() : '';
+    if (chef) meta.push({ text: format(copy.by, chef) });
+    var minutes = Math.round(Number(dish.minutes));
+    if (minutes > 0) meta.push({ text: format(copy.minutes, minutes), keep: true });
+    var servings = Math.round(Number(dish.servings));
+    if (servings > 0) meta.push({ text: format(servings === 1 ? copy.serving : copy.servings, servings), keep: true });
+    var metaLine = $('dish-meta');
+    metaLine.textContent = '';
+    meta.forEach(function (part, i) {
+      if (i) metaLine.append(' · ');
+      var span = document.createElement('span');
+      span.textContent = part.text;
+      if (part.keep) span.className = 'nw';
+      metaLine.append(span);
+    });
+    metaLine.hidden = meta.length === 0;
+
+    var list = $('lines-list');
+    list.textContent = '';
+    list.lang = dishLanguage;
+    listOf(dish.lines).forEach(function (line) {
+      var name = line && typeof line.name === 'string' ? line.name.trim() : '';
+      if (!name) return;
+      var row = document.createElement('li');
+      var nameCell = document.createElement('span');
+      nameCell.className = 'u';
+      nameCell.textContent = name;
+      var amount = document.createElement('span');
+      amount.className = 'num';
+      amount.textContent = typeof line.quantityText === 'string' ? line.quantityText : '';
+      row.append(nameCell, amount);
+      list.append(row);
+    });
+    $('lines').hidden = list.children.length === 0;
+    fitLines();
+
+    var steps = $('steps-list');
+    steps.textContent = '';
+    steps.lang = dishLanguage;
+    listOf(dish.steps).forEach(function (step) {
+      var body = typeof step === 'string' ? step.trim() : '';
+      if (!body) return;
+      var row = document.createElement('li');
+      var number = document.createElement('span');
+      number.className = 'num';
+      number.textContent = String(steps.children.length + 1);
+      var words = document.createElement('span');
+      words.className = 'u';
+      words.textContent = body;
+      row.append(number, words);
+      steps.append(row);
+    });
+    $('steps').hidden = steps.children.length === 0;
+
+    show('dish');
+  }
+
+  // The ingredients take two columns, as on the canvas, unless a name and its amount would need more than two lines
+  // there; then one column. Checked again when the page's width changes.
+  function fitLines() {
+    var list = $('lines-list');
+    list.classList.remove('one');
+    var tall = Array.prototype.some.call(list.children, function (row) { return row.offsetHeight > 44; });
+    list.classList.toggle('one', tall);
+  }
+
+  function showGone() {
+    show('gone');
+    document.title = format(COPY[lang].dishPage, COPY[lang].gone);
+  }
+
+  // A dish that can't be read right now: no network, CloudKit unreachable or refusing, or a copy the page can't read.
+  function showFailure(error) {
+    var offline = (error && error.ckErrorCode === 'NETWORK_ERROR') || navigator.onLine === false;
+    text('failed-title', offline ? COPY[lang].offline : COPY[lang].failed);
+    show('failed');
+  }
+
+  function loadCloudKit() {
+    if (window.CloudKit) return Promise.resolve(window.CloudKit);
+    return new Promise(function (resolve, reject) {
+      var script = document.createElement('script');
+      script.src = CLOUDKIT_JS;
+      script.async = true;
+      script.onload = function () {
+        if (window.CloudKit) resolve(window.CloudKit); else reject({ ckErrorCode: 'NETWORK_ERROR' });
+      };
+      script.onerror = function () {
+        script.remove();
+        reject({ ckErrorCode: 'NETWORK_ERROR' });
+      };
+      document.head.append(script);
+    });
+  }
+
+  function database(CloudKit) {
+    if (!cloudKit) {
+      CloudKit.configure({
+        containers: [{
+          containerIdentifier: CLOUDKIT_CONTAINER,
+          apiTokenAuth: { apiToken: CLOUDKIT_API_TOKEN, persist: false },
+          environment: CLOUDKIT_ENVIRONMENT
+        }]
+      });
+      cloudKit = CloudKit.getDefaultContainer().publicCloudDatabase;
+    }
+    return cloudKit;
+  }
+
+  // The record named by the key: `dish` is the dish as JSON, `photo` an asset whose address names the file with ${f}.
+  function readDish() {
+    show('loading');
+    loadCloudKit().then(function (CloudKit) {
+      return database(CloudKit).fetchRecords(key);
+    }).then(function (response) {
+      if (response.hasErrors) throw response.errors[0];
+      var record = response.records && response.records[0];
+      if (!record || record.recordType !== RECORD_TYPE) throw { ckErrorCode: 'NOT_FOUND' };
+      var fields = record.fields || {};
+      var dish;
+      try {
+        dish = JSON.parse(fields.dish && fields.dish.value);
+      } catch (e) {
+        throw { ckErrorCode: 'UNREADABLE' };
+      }
+      if (!dish || typeof dish !== 'object') throw { ckErrorCode: 'UNREADABLE' };
+      if (!dish.title && fields.title) dish.title = fields.title.value;
+      var asset = fields.photo && fields.photo.value;
+      var url = asset && typeof asset.downloadURL === 'string' ? asset.downloadURL.replace('${f}', 'photo.jpg') : '';
+      showDish(dish, /^https:\/\//.test(url) ? url : '');
+    }).catch(function (error) {
+      if (error && error.ckErrorCode === 'NOT_FOUND') showGone(); else showFailure(error);
+    });
+  }
+
+  // ?demo=1 shows the dish on the UI canvas without CloudKit, for review: add lang=en for its English twin, photo=0
+  // for its plate without a photo, wechat=1 for WeChat's hint. demo=gone, demo=offline and demo=failed show those states.
+  function runDemo() {
+    var script = document.createElement('script');
+    script.src = 'demo.js';
+    script.onload = function () {
+      var data = window.SHISO_DEMO;
+      if (params.get('lang')) setLanguage(params.get('lang'));
+      if (demo === 'gone') return showGone();
+      if (demo === 'offline') return showFailure({ ckErrorCode: 'NETWORK_ERROR' });
+      if (demo === 'failed') return showFailure({});
+      var dish = params.get('lang') === 'en' ? data.en : data.zh;
+      showDish(dish, params.get('photo') === '0' ? '' : data.photo);
+    };
+    document.head.append(script);
+  }
+
+  setLanguage(navigator.language);
+  if (inWeChat) {
+    $('wechat').hidden = false;
+    $('wechat').addEventListener('click', function () { $('wechat').hidden = true; });
+  }
+  $('retry').addEventListener('click', readDish);
+  if (window.ResizeObserver) new ResizeObserver(fitLines).observe($('lines'));
+  if (document.fonts) document.fonts.ready.then(fitLines);
+
+  if (demo !== null) {
+    runDemo();
+  } else if (/^[0-9A-Za-z]{16}$/.test(key)) {
+    readDish();
+  } else {
+    showGone();
+  }
+})();
+</script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
