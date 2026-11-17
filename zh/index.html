@@ -84,54 +84,71 @@
 
 <div class="wrap feats" id="features">
 
-<section id="library" class="feature" data-shots>
-  <div class="feature-head">
-    <div>
-      <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 4.5h10a3 3 0 0 1 3 3v12h-10a3 3 0 0 1-3-3z"/><path d="M5.5 16.5a3 3 0 0 1 3-3h10"/><path d="M10 4.5v5l1.8-1.2 1.7 1.2v-5"/></svg>食谱知识库</span>
-      <h2>打造你的<br>个人食谱知识库</h2>
-      <p class="sub">认得你的食材和常去的店，记下你的拿手做法<br>排好每一餐，采购清单一目了然</p>
-    </div>
-    <div class="shots-ctl"><button class="ib" type="button" data-step="-1" aria-label="上一屏"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><button class="ib" type="button" data-step="1" aria-label="下一屏"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+<section id="library" class="feat" data-shots>
+  <div class="feat-text">
+    <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 4.5h10a3 3 0 0 1 3 3v12h-10a3 3 0 0 1-3-3z"/><path d="M5.5 16.5a3 3 0 0 1 3-3h10"/><path d="M10 4.5v5l1.8-1.2 1.7 1.2v-5"/></svg>食谱知识库</span>
+    <h2>打造你的<br>个人食谱知识库</h2>
+    <p class="sub">认得你的食材和常去的店，记下你的拿手做法<br>排好每一餐，采购清单一目了然</p>
+    <ol class="notes">
+      <li><button class="note" type="button" data-note="0" aria-current="true"><b>拿手菜都在这里</b><span>做过的菜都存成食谱，盘子、标签、做过几次一目了然。</span></button></li>
+      <li><button class="note" type="button" data-note="1"><b>认得你的食材</b><span>每样食材记着单位，还有常去哪家店买。</span></button></li>
+      <li><button class="note" type="button" data-note="2"><b>你自己的做法</b><span>食材和步骤按你的习惯记，每一步还能配照片。</span></button></li>
+      <li><button class="note" type="button" data-note="3"><b>排好接下来几天</b><span>一次排一到七天，一餐几道菜都行。</span></button></li>
+      <li><button class="note" type="button" data-note="4"><b>清单自动算好</b><span>按计划算好要买多少，按店分好，一趟买齐。</span></button></li>
+    </ol>
   </div>
-  <ul class="shots" tabindex="0" aria-label="食谱知识库">
-    <li class="shot"><figure><img src="../assets/shots/zh/library-recipes.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>做过的菜，各有各的盘子</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/library-kitchen.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>每样食材记着单位和常去的店</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/library-recipe.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>你自己的做法，一步一步记下</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/library-plan.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>接下来几天，每一餐都排好</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/library-shopping.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>清单自动算好，按店分好</figcaption></figure></li>
-  </ul>
+  <div class="show">
+    <ul class="shots" tabindex="0" aria-label="食谱知识库">
+      <li class="shot on"><img src="../assets/shots/zh/library-recipes.webp" alt="拿手菜都在这里" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/library-kitchen.webp" alt="认得你的食材" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/library-recipe.webp" alt="你自己的做法" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/library-plan.webp" alt="排好接下来几天" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/library-shopping.webp" alt="清单自动算好" width="800" height="1040" loading="lazy" decoding="async"></li>
+    </ul>
+    <div class="show-ctl"><button class="ib" type="button" data-step="-1" aria-label="上一张"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><span class="show-dots"><button class="show-dot on" type="button" data-dot="0" aria-label="第 1 张" aria-current="true"></button><button class="show-dot" type="button" data-dot="1" aria-label="第 2 张"></button><button class="show-dot" type="button" data-dot="2" aria-label="第 3 张"></button><button class="show-dot" type="button" data-dot="3" aria-label="第 4 张"></button><button class="show-dot" type="button" data-dot="4" aria-label="第 5 张"></button></span><button class="ib" type="button" data-step="1" aria-label="下一张"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+  </div>
 </section>
 
-<section id="photos" class="feature" data-shots>
-  <div class="feature-head">
-    <div>
-      <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5a2 2 0 0 1 2-2h2.3l1.4-2h5.6l1.4 2h2.3a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.4"/></svg>成品照</span>
-      <h2>拍下做好的菜<br>看见每一次进步</h2>
-      <p class="sub">可爱的盘子相机，把每次做的菜都留下来<br>回头看看变化，拍完顺手就能记成新菜</p>
-    </div>
-    <div class="shots-ctl"><button class="ib" type="button" data-step="-1" aria-label="上一屏"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><button class="ib" type="button" data-step="1" aria-label="下一屏"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+<section id="photos" class="feat flip" data-shots>
+  <div class="feat-text">
+    <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5a2 2 0 0 1 2-2h2.3l1.4-2h5.6l1.4 2h2.3a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.4"/></svg>成品照</span>
+    <h2>拍下做好的菜<br>看见每一次进步</h2>
+    <p class="sub">可爱的盘子相机，把每次做的菜都留下来<br>回头看看变化，拍完顺手就能记成新菜</p>
+    <ol class="notes">
+      <li><button class="note" type="button" data-note="0" aria-current="true"><b>可爱的盘子相机</b><span>把菜拍进盘子里，五种盘子随你换。</span></button></li>
+      <li><button class="note" type="button" data-note="1"><b>每做一次，多一张成品照</b><span>成品照按日子排好，回头看看这道菜的变化。</span></button></li>
+      <li><button class="note" type="button" data-note="2"><b>拍完再选是哪道</b><span>选一道菜放进今天，没有就记成一道新菜。</span></button></li>
+    </ol>
   </div>
-  <ul class="shots" tabindex="0" aria-label="成品照">
-    <li class="shot"><figure><img src="../assets/shots/zh/photos-camera.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>盘子相机，把菜拍进盘子里</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/photos-album.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>每做一次，成品照多一张</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/photos-snap.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>拍一道菜，选是哪道，或记成新菜</figcaption></figure></li>
-  </ul>
+  <div class="show">
+    <ul class="shots" tabindex="0" aria-label="成品照">
+      <li class="shot on"><img src="../assets/shots/zh/photos-camera.webp" alt="可爱的盘子相机" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/photos-album.webp" alt="每做一次，多一张成品照" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/photos-snap.webp" alt="拍完再选是哪道" width="800" height="1040" loading="lazy" decoding="async"></li>
+    </ul>
+    <div class="show-ctl"><button class="ib" type="button" data-step="-1" aria-label="上一张"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><span class="show-dots"><button class="show-dot on" type="button" data-dot="0" aria-label="第 1 张" aria-current="true"></button><button class="show-dot" type="button" data-dot="1" aria-label="第 2 张"></button><button class="show-dot" type="button" data-dot="2" aria-label="第 3 张"></button></span><button class="ib" type="button" data-step="1" aria-label="下一张"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+  </div>
 </section>
 
-<section id="share" class="feature" data-shots>
-  <div class="feature-head">
-    <div>
-      <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5V3.5"/><path d="M8 7.5l4-4 4 4"/><path d="M8.5 10.5h-2A1.5 1.5 0 0 0 5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12a1.5 1.5 0 0 0-1.5-1.5h-2"/></svg>分享</span>
-      <h2>把拿手菜<br>分享出去</h2>
-      <p class="sub">做成歌词卡，或者一组编号卡片<br>扫一扫上面的二维码，就能收下这道菜</p>
-    </div>
-    <div class="shots-ctl"><button class="ib" type="button" data-step="-1" aria-label="上一屏"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><button class="ib" type="button" data-step="1" aria-label="下一屏"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+<section id="share" class="feat" data-shots>
+  <div class="feat-text">
+    <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5V3.5"/><path d="M8 7.5l4-4 4 4"/><path d="M8.5 10.5h-2A1.5 1.5 0 0 0 5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12a1.5 1.5 0 0 0-1.5-1.5h-2"/></svg>分享</span>
+    <h2>把拿手菜<br>分享出去</h2>
+    <p class="sub">做成歌词卡，或者一组编号卡片<br>扫一扫上面的二维码，就能收下这道菜</p>
+    <ol class="notes">
+      <li><button class="note" type="button" data-note="0" aria-current="true"><b>歌词卡</b><span>做法像歌词一样往下读，卡片上带着二维码。</span></button></li>
+      <li><button class="note" type="button" data-note="1"><b>编号卡片</b><span>步骤多了，接着写在一张张编号卡片上。</span></button></li>
+      <li><button class="note" type="button" data-note="2"><b>扫码就能收下</b><span>扫一扫二维码，这道菜连同食材一起导入。</span></button></li>
+    </ol>
   </div>
-  <ul class="shots" tabindex="0" aria-label="分享">
-    <li class="shot"><figure><img src="../assets/shots/zh/share-lyric.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>歌词卡，扫码就能收下这道菜</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/share-cards.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>步骤多了，接着写在编号卡片上</figcaption></figure></li>
-    <li class="shot"><figure><img src="../assets/shots/zh/share-import.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>在食序里打开，就能导入</figcaption></figure></li>
-  </ul>
+  <div class="show">
+    <ul class="shots" tabindex="0" aria-label="分享">
+      <li class="shot on"><img src="../assets/shots/zh/share-lyric.webp" alt="歌词卡" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/share-cards.webp" alt="编号卡片" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="../assets/shots/zh/share-import.webp" alt="扫码就能收下" width="800" height="1040" loading="lazy" decoding="async"></li>
+    </ul>
+    <div class="show-ctl"><button class="ib" type="button" data-step="-1" aria-label="上一张"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><span class="show-dots"><button class="show-dot on" type="button" data-dot="0" aria-label="第 1 张" aria-current="true"></button><button class="show-dot" type="button" data-dot="1" aria-label="第 2 张"></button><button class="show-dot" type="button" data-dot="2" aria-label="第 3 张"></button></span><button class="ib" type="button" data-step="1" aria-label="下一张"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+  </div>
 </section>
 <section class="also" aria-label="食序还有">
   <div><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10a4 4 0 0 0 .8-7.9 5.5 5.5 0 0 0-10.6-1.4A4.7 4.7 0 0 0 7 18.5z"/></svg><h3>iCloud 同步</h3><p>厨房、食谱和计划通过你自己的 iCloud 私有库同步。</p></div>

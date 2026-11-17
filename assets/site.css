@@ -233,30 +233,49 @@ body { margin: 0; }
 .dish-meta { font-size: 14px; color: var(--ink2); }
 
 /* —— The three features ——
-   Each says what it is for first, then a row of the app's screens to swipe through, a line under each. The screens are
-   images in assets/shots/<language>/<slot>.png; the row runs to the page's edges, and on wider pages two buttons move it
-   one screen at a time (assets/site.js). */
+   As on the first site: text on one side, the app on the other, sides taking turns. The text names what the screens show
+   (.notes); the screens are cards of the app's real 2.1 screens, cropped to what they're about, in a row that swipes on
+   its own while the text stays put. The note for the card in the middle is marked, and picking a note brings its card
+   (assets/site.js). */
 .feats { padding-top: clamp(40px, 6cqw, 88px); scroll-margin-top: 8px; }
-.feature { padding: clamp(44px, 5cqw, 72px) 0; scroll-margin-top: 8px; }
-.feature-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-.feature-head > div { max-width: 760px; }
+.feat { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: clamp(48px, 7cqw, 104px); padding: clamp(44px, 5cqw, 72px) 0; scroll-margin-top: 8px; }
+.feat.flip { grid-template-columns: auto minmax(0, 1fr); }
+.feat.flip .feat-text { order: 2; }
 .eyebrow { display: inline-flex; align-items: center; gap: 6px; height: 20px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--pri); }
-.feature h2, .priv h2, .end h2 { font-size: clamp(32px, 3.5cqw, 48px); line-height: 1.16; font-weight: 700; letter-spacing: -0.006em; }
-.zh .feature h2, .zh .priv h2, .zh .end h2 { letter-spacing: 0.02em; }
-.feature h2 { margin-top: 10px; }
+.feat h2, .priv h2, .end h2 { font-size: clamp(32px, 3.5cqw, 48px); line-height: 1.16; font-weight: 700; letter-spacing: -0.006em; }
+.zh .feat h2, .zh .priv h2, .zh .end h2 { letter-spacing: 0.02em; }
+.feat h2 { margin-top: 10px; }
 .sub { margin-top: 10px; font-size: clamp(16px, 1.3cqw, 18px); line-height: 1.5; color: var(--ink2); text-wrap: pretty; }
-.shots-ctl { flex: none; display: flex; gap: 8px; }
-.shots-ctl .ib { background: var(--bg2); color: var(--ink2); }
-.shots-ctl .ib:hover:not(:disabled) { color: var(--ink); }
-.shots-ctl .ib:disabled { opacity: 0.35; cursor: default; }
-.shots { display: flex; gap: clamp(16px, 2cqw, 28px); margin: clamp(24px, 3cqw, 36px) -32px 0; padding: 4px 32px 28px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 32px; scrollbar-width: none; }
+.notes { margin-top: 22px; }
+.notes li + li { border-top: 1px solid var(--line); }
+.note { position: relative; display: block; width: 100%; padding: 12px 0 13px 18px; text-align: left; border-radius: 0; }
+.note::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 15px; width: 3px; border-radius: 2px; background: transparent; transition: background-color .25s ease; }
+.note b { display: block; font-size: 16px; font-weight: 600; line-height: 1.35; transition: color .25s ease; }
+.note span { display: block; margin-top: 2px; font-size: 15px; line-height: 1.45; color: var(--ink2); text-wrap: pretty; }
+.note:hover b { color: var(--pri); }
+.note[aria-current="true"]::before { background: var(--pri); }
+.note[aria-current="true"] b { color: var(--pri); }
+/* The cards: 400 × 520, the one in the middle bright, its neighbours peeking in at the sides. */
+.show { --card: 400px; position: relative; width: calc(var(--card) + 120px); }
+.shots { position: relative; display: flex; gap: 20px; padding: 20px calc((100% - var(--card)) / 2) 52px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 34px, #000 calc(100% - 34px), transparent); mask-image: linear-gradient(90deg, transparent, #000 34px, #000 calc(100% - 34px), transparent); }
 .shots::-webkit-scrollbar { display: none; }
-.shots:focus-visible { outline-offset: -4px; border-radius: 0; }
-.shot { flex: none; width: clamp(196px, 20cqw, 248px); scroll-snap-align: start; }
-.shot figure { margin: 0; }
-/* The corners follow an iPhone screen's at any size. */
-.shot img { width: 100%; height: auto; border-radius: 13% / 6%; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 14px 32px var(--panel-shadow); }
-.shot figcaption { margin-top: 14px; font-size: 15px; line-height: 1.45; color: var(--ink2); text-wrap: pretty; }
+.shots:focus-visible { outline-offset: -4px; }
+.shot { flex: none; width: var(--card); scroll-snap-align: center; opacity: 0.4; transform: scale(0.94); transition: opacity .35s ease, transform .35s ease; }
+.shot.on { opacity: 1; transform: none; }
+.shot img { width: 100%; height: auto; border-radius: 32px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 14px 30px var(--panel-shadow); -webkit-user-drag: none; user-select: none; }
+.show-ctl { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: -14px; }
+.show-ctl .ib { color: var(--ink2); }
+.show-ctl .ib:hover:not(:disabled) { color: var(--ink); }
+.show-ctl .ib:disabled { opacity: 0.3; cursor: default; }
+.show-dots { display: flex; align-items: center; }
+.show-dot { position: relative; width: 16px; height: 28px; display: grid; place-items: center; cursor: pointer; transition: width .3s ease; }
+.show-dot::before { content: ""; width: 8px; height: 8px; border-radius: 4px; background: var(--line2); transition: width .3s ease, background-color .3s ease; }
+.show-dot::after { content: ""; position: absolute; inset: -8px 0; }
+.show-dot.on { width: 32px; }
+.show-dot.on::before { width: 24px; background: var(--pri); }
+@media (prefers-reduced-motion: reduce) {
+  .shot, .show-dot, .show-dot::before { transition: none; }
+}
 
 /* —— The rest of the home page —— */
 .also { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; margin-top: clamp(32px, 4cqw, 56px); padding-top: 40px; border-top: 1px solid var(--line); }
@@ -360,6 +379,11 @@ body { margin: 0; }
 
 /* —— Narrower pages —— */
 @container site (max-width: 960px) {
+  .feat, .feat.flip { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
+  .feat.flip .feat-text { order: 0; }
+  .show { justify-self: center; }
+  .notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+  .notes li, .notes li + li { border-top: 1px solid var(--line); }
   .also { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .doc { grid-template-columns: minmax(0, 1fr); }
   .toc { display: none; }
@@ -382,10 +406,13 @@ body { margin: 0; }
   .r2 { --x: 49cqw; --y: -56px; --s: .36; }
   .l3, .l4 { --x: -62cqw; --y: -110px; --s: .3; opacity: 0; pointer-events: none; }
   .r3, .r4, .out { --x: 62cqw; --y: -110px; --s: .3; opacity: 0; pointer-events: none; }
-  .feature { padding: 40px 0; }
-  .shots-ctl { display: none; }
-  .shots { margin: 24px -20px 0; padding: 4px 20px 24px; scroll-padding-inline: 20px; }
-  .shot { width: min(62cqw, 248px); }
+  .feat { padding: 40px 0; }
+  .notes { grid-template-columns: minmax(0, 1fr); }
+  /* On a phone the row runs edge to edge and is swiped; the buttons step aside for the dots. */
+  .show { --card: min(74cqw, 320px); width: auto; justify-self: stretch; margin: 0 -20px; }
+  .shots { -webkit-mask-image: none; mask-image: none; }
+  .shot img { border-radius: 26px; }
+  .show-ctl .ib { display: none; }
   .also { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 32px; }
   .priv { grid-template-columns: minmax(0, 1fr); }
   .short { grid-template-columns: minmax(0, 1fr); padding: 6px 18px; }
