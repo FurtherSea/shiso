@@ -302,32 +302,65 @@
     };
   }
 
-  /* A feature's row of screens. It scrolls by touch, trackpad or keyboard on its own; the two buttons, shown on wider
-     pages, move it one screen at a time and dim at either end. */
+  /* A feature's row of screen cards. It swipes on its own (touch, trackpad, keyboard); the card nearest the middle is
+     the one shown: bright, with its dot and its note marked. The buttons, the dots and the notes bring a card to the
+     middle. */
   function createShots(feature) {
     var view = feature.ownerDocument.defaultView;
     var track = feature.querySelector('.shots');
-    var buttons = Array.prototype.slice.call(feature.querySelectorAll('[data-step]'));
-    function stepWidth() {
-      var shot = track.querySelector('.shot');
-      if (!shot) return track.clientWidth;
-      return shot.getBoundingClientRect().width + (parseFloat(view.getComputedStyle(track).columnGap) || 0);
+    var cards = Array.prototype.slice.call(track.querySelectorAll('.shot'));
+    var dots = Array.prototype.slice.call(feature.querySelectorAll('[data-dot]'));
+    var notes = Array.prototype.slice.call(feature.querySelectorAll('[data-note]'));
+    var steps = Array.prototype.slice.call(feature.querySelectorAll('[data-step]'));
+    var current = -1;
+    var frame = 0;
+
+    function middle() {
+      var centre = track.scrollLeft + track.clientWidth / 2;
+      var best = 0;
+      cards.forEach(function (card, i) {
+        var d = Math.abs(card.offsetLeft + card.offsetWidth / 2 - centre);
+        var b = Math.abs(cards[best].offsetLeft + cards[best].offsetWidth / 2 - centre);
+        if (d < b) best = i;
+      });
+      return best;
     }
-    function update() {
-      var end = track.scrollWidth - track.clientWidth - 2;
-      buttons.forEach(function (button) {
-        button.disabled = Number(button.dataset.step) < 0 ? track.scrollLeft <= 2 : track.scrollLeft >= end;
+
+    function show(i) {
+      if (i === current) return;
+      current = i;
+      cards.forEach(function (card, n) { card.classList.toggle('on', n === i); });
+      [dots, notes].forEach(function (list) {
+        list.forEach(function (el, n) {
+          if (n === i) el.setAttribute('aria-current', 'true'); else el.removeAttribute('aria-current');
+          el.classList.toggle('on', n === i);
+        });
+      });
+      steps.forEach(function (button) {
+        button.disabled = Number(button.dataset.step) < 0 ? i === 0 : i === cards.length - 1;
       });
     }
-    buttons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        var still = view.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        track.scrollBy({ left: Number(button.dataset.step) * stepWidth(), behavior: still ? 'auto' : 'smooth' });
-      });
+
+    function go(i) {
+      i = Math.max(0, Math.min(cards.length - 1, i));
+      var card = cards[i];
+      var still = view.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      track.scrollTo({ left: card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2, behavior: still ? 'auto' : 'smooth' });
+      show(i);
+    }
+
+    track.addEventListener('scroll', function () {
+      view.cancelAnimationFrame(frame);
+      frame = view.requestAnimationFrame(function () { show(middle()); });
+    }, { passive: true });
+    steps.forEach(function (button) {
+      button.addEventListener('click', function () { go(current + Number(button.dataset.step)); });
     });
-    track.addEventListener('scroll', update, { passive: true });
-    if (view.ResizeObserver) new view.ResizeObserver(update).observe(track);
-    update();
+    dots.concat(notes).forEach(function (el) {
+      el.addEventListener('click', function () { go(Number(el.dataset.dot || el.dataset.note)); });
+    });
+    current = -1;
+    show(0);
   }
 
   /* The contact address. It's never in a page in one piece, so a scraper reading the HTML finds no name@domain address

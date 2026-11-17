@@ -35,23 +35,28 @@ The slogan stays put as the page's `h1`, set small. Under it a big title and a l
 
 ## The features
 
-The home page shows three features, in this order of importance: the recipe library (`#library`), dish photos (`#photos`) and sharing (`#share`). Each first says what it's for, with an eyebrow, a heading and a line, then shows a row of the app's screens to swipe through, with a line under each. A row is a plain list that scrolls sideways and snaps to each screen. On wider pages two buttons move it one screen at a time (`createShots` in `assets/site.js`); on phones it's swiped, and the next screen peeks in at the edge.
+The home page shows three features, in this order of importance: the recipe library (`#library`), dish photos (`#photos`) and sharing (`#share`). As on the first site, each is a row with the text on one side and the app on the other, the sides taking turns (`.feat`, `.feat.flip`).
 
-The screens are the app's own, in `assets/shots/<en|zh>/<slot>.webp`. They're 2.1 screenshots from an iPhone 17 Pro Max (1320 × 2868), with the status bar's top 144 pixels cut off, then scaled to 600 × 1238 and saved as WebP at quality 82. On 拍一道菜 the keyboard was replaced with the sheet's blank background, as with the keyboard dismissed. The captures come from the app repo's screenshot pipeline (`TEST_RUNNER_SITE_SCREENSHOTS=en,zh-Hans`). To change a screen, treat the new capture the same way and keep its name. A screen of another shape needs its `width` and `height` changed in both pages.
+- **The text:** an eyebrow, a heading and a line, then a note for each screen (`.notes`).
+- **The screens:** cards of the app's real 2.1 screens, in a row that swipes on its own while the text stays put. The card in the middle is bright, and its neighbours peek in at the sides.
+- **Moving the row:** the note and the dot for the middle card are marked. Picking a note, a dot or an arrow brings its card to the middle (`createShots` in `assets/site.js`).
+- **On phones** the row runs edge to edge and is swiped, with the dots under it.
 
-| Slot | Shows | Screen |
+The cards are `assets/shots/<en|zh>/<slot>.webp`, 800 × 1040 at quality 84, cut from the app's 2.1 screenshots (iPhone 17 Pro Max, 1320 × 2868). Each shows a 1320 × 1716 part of its screen, the part the card is about, scaled down. On 拍一道菜 the keyboard was replaced with the sheet's blank background, as with it dismissed. The captures come from the app repo's screenshot pipeline (`TEST_RUNNER_SITE_SCREENSHOTS=en,zh-Hans`).
+
+| Slot | Shows | Top of the crop |
 | --- | --- | --- |
-| `library-recipes` | 食谱库, the dishes on their plates | 2.1 capture |
-| `library-kitchen` | 厨房, ingredients with their units and stores | 2.1 capture |
-| `library-recipe` | 编辑食谱, the ingredients and the steps with their photos | 2.1 capture |
-| `library-plan` | 餐食, the days ahead and their meals | 2.1 capture |
-| `library-shopping` | 采购, the list grouped by store | 2.1 capture |
-| `photos-camera` | The plate camera | 2.1 capture |
-| `photos-album` | 成品照, a dish's photos over time | 2.1 capture |
-| `photos-snap` | 拍一道菜, then 是哪道菜？ or a new dish | 2.1 capture |
-| `share-lyric` | 分享这道菜 with the lyric card and its QR code | 2.1 capture |
-| `share-cards` | The numbered cards a long lyric card runs on over | 2.1 capture |
-| `share-import` | 导入这道菜, a shared dish opening in the app | 2.1 capture |
+| `library-recipes` | 食谱库, the dishes on their plates | 144 |
+| `library-kitchen` | 厨房, ingredients with their units and stores | 144 |
+| `library-recipe` | 编辑食谱, the ingredients and the steps with their photos | 144 |
+| `library-plan` | 餐食, the days ahead and their meals | 144 |
+| `library-shopping` | 采购, the list grouped by store | 144 |
+| `photos-camera` | The plate camera | 560 |
+| `photos-album` | 成品照, a dish's photos over time | 1152 |
+| `photos-snap` | 拍一道菜, then 是哪道菜？ or a new dish | 190 |
+| `share-lyric` | 分享这道菜 with the lyric card and its QR code | 216 |
+| `share-cards` | The numbered cards a long lyric card runs on over | 216 |
+| `share-import` | 导入这道菜, a shared dish opening in the app | 192 |
 
 ## Changing text
 

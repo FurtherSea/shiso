@@ -85,54 +85,71 @@
 
 <div class="wrap feats" id="features">
 
-<section id="library" class="feature" data-shots>
-  <div class="feature-head">
-    <div>
-      <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 4.5h10a3 3 0 0 1 3 3v12h-10a3 3 0 0 1-3-3z"/><path d="M5.5 16.5a3 3 0 0 1 3-3h10"/><path d="M10 4.5v5l1.8-1.2 1.7 1.2v-5"/></svg>Recipe library</span>
-      <h2>Your recipe<br>knowledge base</h2>
-      <p class="sub">It knows your ingredients and the stores you buy them from, keeps your own way of cooking each dish, and plans your meals with a clear shopping list.</p>
-    </div>
-    <div class="shots-ctl"><button class="ib" type="button" data-step="-1" aria-label="Previous screens"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><button class="ib" type="button" data-step="1" aria-label="Next screens"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+<section id="library" class="feat" data-shots>
+  <div class="feat-text">
+    <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 4.5h10a3 3 0 0 1 3 3v12h-10a3 3 0 0 1-3-3z"/><path d="M5.5 16.5a3 3 0 0 1 3-3h10"/><path d="M10 4.5v5l1.8-1.2 1.7 1.2v-5"/></svg>Recipe library</span>
+    <h2>Your recipe<br>knowledge base</h2>
+    <p class="sub">It knows your ingredients and the stores you buy them from, keeps your own way of cooking each dish, and plans your meals with a clear shopping list.</p>
+    <ol class="notes">
+      <li><button class="note" type="button" data-note="0" aria-current="true"><b>Your best dishes, together</b><span>Every dish you cook becomes a recipe, with its plate, tags and how often you’ve made it.</span></button></li>
+      <li><button class="note" type="button" data-note="1"><b>It knows your ingredients</b><span>Each one keeps its unit and the stores you buy it from.</span></button></li>
+      <li><button class="note" type="button" data-note="2"><b>Your own way of cooking</b><span>Ingredients and steps the way you make them, with a photo for any step.</span></button></li>
+      <li><button class="note" type="button" data-note="3"><b>Plan the days ahead</b><span>One to seven days at a time, as many dishes in a meal as you like.</span></button></li>
+      <li><button class="note" type="button" data-note="4"><b>The shopping list, done</b><span>Amounts added up from your plan, grouped by store for one trip.</span></button></li>
+    </ol>
   </div>
-  <ul class="shots" tabindex="0" aria-label="Recipe library">
-    <li class="shot"><figure><img src="assets/shots/en/library-recipes.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>Every dish you cook, on its own plate</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/library-kitchen.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>Ingredients with their units and stores</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/library-recipe.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>Your way of cooking it, step by step</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/library-plan.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>Plan the next few days, meal by meal</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/library-shopping.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>A shopping list, grouped by store</figcaption></figure></li>
-  </ul>
+  <div class="show">
+    <ul class="shots" tabindex="0" aria-label="Recipe library">
+      <li class="shot on"><img src="assets/shots/en/library-recipes.webp" alt="Your best dishes, together" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/library-kitchen.webp" alt="It knows your ingredients" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/library-recipe.webp" alt="Your own way of cooking" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/library-plan.webp" alt="Plan the days ahead" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/library-shopping.webp" alt="The shopping list, done" width="800" height="1040" loading="lazy" decoding="async"></li>
+    </ul>
+    <div class="show-ctl"><button class="ib" type="button" data-step="-1" aria-label="Previous screen"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><span class="show-dots"><button class="show-dot on" type="button" data-dot="0" aria-label="Screen 1" aria-current="true"></button><button class="show-dot" type="button" data-dot="1" aria-label="Screen 2"></button><button class="show-dot" type="button" data-dot="2" aria-label="Screen 3"></button><button class="show-dot" type="button" data-dot="3" aria-label="Screen 4"></button><button class="show-dot" type="button" data-dot="4" aria-label="Screen 5"></button></span><button class="ib" type="button" data-step="1" aria-label="Next screen"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+  </div>
 </section>
 
-<section id="photos" class="feature" data-shots>
-  <div class="feature-head">
-    <div>
-      <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5a2 2 0 0 1 2-2h2.3l1.4-2h5.6l1.4 2h2.3a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.4"/></svg>Dish photos</span>
-      <h2>Snap the dish,<br>see it improve</h2>
-      <p class="sub">A cute plate camera keeps every dish you make, so you can look back on how each one has come along, and turn any photo into a new recipe.</p>
-    </div>
-    <div class="shots-ctl"><button class="ib" type="button" data-step="-1" aria-label="Previous screens"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><button class="ib" type="button" data-step="1" aria-label="Next screens"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+<section id="photos" class="feat flip" data-shots>
+  <div class="feat-text">
+    <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5a2 2 0 0 1 2-2h2.3l1.4-2h5.6l1.4 2h2.3a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.4"/></svg>Dish photos</span>
+    <h2>Snap the dish,<br>see it improve</h2>
+    <p class="sub">A cute plate camera keeps every dish you make, so you can look back on how each one has come along, and turn any photo into a new recipe.</p>
+    <ol class="notes">
+      <li><button class="note" type="button" data-note="0" aria-current="true"><b>A cute plate camera</b><span>It frames the dish on its plate, with five plates to choose from.</span></button></li>
+      <li><button class="note" type="button" data-note="1"><b>A photo every time you cook it</b><span>A dish’s photos in order, to see how it’s come along.</span></button></li>
+      <li><button class="note" type="button" data-note="2"><b>Snap first, then pick the dish</b><span>Choose which dish it is, or start a new recipe from the photo.</span></button></li>
+    </ol>
   </div>
-  <ul class="shots" tabindex="0" aria-label="Dish photos">
-    <li class="shot"><figure><img src="assets/shots/en/photos-camera.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>A plate camera that frames the dish</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/photos-album.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>Every time you cook it, a new photo</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/photos-snap.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>Snap a dish, then pick it or start a new recipe</figcaption></figure></li>
-  </ul>
+  <div class="show">
+    <ul class="shots" tabindex="0" aria-label="Dish photos">
+      <li class="shot on"><img src="assets/shots/en/photos-camera.webp" alt="A cute plate camera" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/photos-album.webp" alt="A photo every time you cook it" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/photos-snap.webp" alt="Snap first, then pick the dish" width="800" height="1040" loading="lazy" decoding="async"></li>
+    </ul>
+    <div class="show-ctl"><button class="ib" type="button" data-step="-1" aria-label="Previous screen"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><span class="show-dots"><button class="show-dot on" type="button" data-dot="0" aria-label="Screen 1" aria-current="true"></button><button class="show-dot" type="button" data-dot="1" aria-label="Screen 2"></button><button class="show-dot" type="button" data-dot="2" aria-label="Screen 3"></button></span><button class="ib" type="button" data-step="1" aria-label="Next screen"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+  </div>
 </section>
 
-<section id="share" class="feature" data-shots>
-  <div class="feature-head">
-    <div>
-      <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5V3.5"/><path d="M8 7.5l4-4 4 4"/><path d="M8.5 10.5h-2A1.5 1.5 0 0 0 5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12a1.5 1.5 0 0 0-1.5-1.5h-2"/></svg>Sharing</span>
-      <h2>Share the dishes<br>you love</h2>
-      <p class="sub">Turn a recipe into a lyric card or a set of numbered cards. The QR code on it brings the whole dish to whoever scans it.</p>
-    </div>
-    <div class="shots-ctl"><button class="ib" type="button" data-step="-1" aria-label="Previous screens"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><button class="ib" type="button" data-step="1" aria-label="Next screens"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+<section id="share" class="feat" data-shots>
+  <div class="feat-text">
+    <span class="eyebrow"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5V3.5"/><path d="M8 7.5l4-4 4 4"/><path d="M8.5 10.5h-2A1.5 1.5 0 0 0 5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12a1.5 1.5 0 0 0-1.5-1.5h-2"/></svg>Sharing</span>
+    <h2>Share the dishes<br>you love</h2>
+    <p class="sub">Turn a recipe into a lyric card or a set of numbered cards. The QR code on it brings the whole dish to whoever scans it.</p>
+    <ol class="notes">
+      <li><button class="note" type="button" data-note="0" aria-current="true"><b>The lyric card</b><span>Steps that read like lyrics, with a QR code on the card.</span></button></li>
+      <li><button class="note" type="button" data-note="1"><b>Numbered cards</b><span>Long recipes run on over numbered cards.</span></button></li>
+      <li><button class="note" type="button" data-note="2"><b>Scan to keep the dish</b><span>Scanning the code brings the dish in, ingredients and all.</span></button></li>
+    </ol>
   </div>
-  <ul class="shots" tabindex="0" aria-label="Sharing">
-    <li class="shot"><figure><img src="assets/shots/en/share-lyric.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>The lyric card, with a QR code that brings the dish</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/share-cards.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>Long recipes run on over numbered cards</figcaption></figure></li>
-    <li class="shot"><figure><img src="assets/shots/en/share-import.webp" alt="" width="600" height="1238" loading="lazy" decoding="async"><figcaption>It opens in Shiso, ready to add</figcaption></figure></li>
-  </ul>
+  <div class="show">
+    <ul class="shots" tabindex="0" aria-label="Sharing">
+      <li class="shot on"><img src="assets/shots/en/share-lyric.webp" alt="The lyric card" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/share-cards.webp" alt="Numbered cards" width="800" height="1040" loading="lazy" decoding="async"></li>
+      <li class="shot"><img src="assets/shots/en/share-import.webp" alt="Scan to keep the dish" width="800" height="1040" loading="lazy" decoding="async"></li>
+    </ul>
+    <div class="show-ctl"><button class="ib" type="button" data-step="-1" aria-label="Previous screen"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button><span class="show-dots"><button class="show-dot on" type="button" data-dot="0" aria-label="Screen 1" aria-current="true"></button><button class="show-dot" type="button" data-dot="1" aria-label="Screen 2"></button><button class="show-dot" type="button" data-dot="2" aria-label="Screen 3"></button></span><button class="ib" type="button" data-step="1" aria-label="Next screen"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button></div>
+  </div>
 </section>
 <section class="also" aria-label="Also in Shiso">
   <div><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5h10a4 4 0 0 0 .8-7.9 5.5 5.5 0 0 0-10.6-1.4A4.7 4.7 0 0 0 7 18.5z"/></svg><h3>iCloud sync</h3><p>Your kitchen, recipes and plans sync through your own private iCloud.</p></div>
