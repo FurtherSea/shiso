@@ -354,18 +354,49 @@ body { margin: 0; }
 .lost .more { margin-top: 0; }
 
 /* —— A shared dish (r/) ——
-   The page a dish card's QR code opens where Shiso isn't installed. It only offers the app: the brand, the line for a
-   shared dish, and the App Store at the bottom of the screen. In WeChat a dimmed layer points to its browser. */
+   The page a dish card's QR code opens where Shiso isn't installed: UI canvas 二十七 A⑧, and 四十九 A17 and A18.
+   What the sharer wrote (.u) is set in the system's fonts: the Chinese font here holds only the site's own characters,
+   so a dish's name would otherwise switch fonts in the middle of a word. */
+.shared { --user: "SF Pro Rounded", ui-rounded, "Nunito", "PingFang SC", "Noto Sans SC", sans-serif; --user-num: var(--f-num); }
+.shared :lang(zh-Hant) { --user: "SF Pro Rounded", ui-rounded, "Nunito", "PingFang TC", "Noto Sans TC", sans-serif; --user-num: "SF Pro Rounded", ui-rounded, "Nunito", "PingFang TC", sans-serif; }
 .shared [hidden] { display: none !important; }
+.shared .u { font-family: var(--user); }
 .shared-col { width: 100%; max-width: 440px; margin: 0 auto; padding: 0 20px; }
 .shared-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 32px; margin-top: 14px; }
 .shared-brand { font-size: 20px; font-weight: 700; letter-spacing: 0.01em; color: var(--pri); }
 .shared-slogan { font-size: 13px; line-height: 1.35; color: var(--ink2); text-align: right; }
 .shared-main { display: flex; flex-direction: column; padding-top: 14px; padding-bottom: 14px; }
-.shared-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; min-height: 340px; padding-bottom: 60px; text-align: center; }
-.shared-state .app-icon { box-shadow: 0 0 0 1px var(--line), 0 12px 28px var(--shadow); }
+.shared-dish { display: flex; flex-direction: column; gap: 14px; }
+.shared-head { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+/* A plate as the app draws it: the drawing is 200 × 204, the plate a 200 circle with its shadow below. */
+.shared-plate { position: relative; flex: none; width: 132px; height: 132px; }
+.shared-plate > img:first-child { position: absolute; left: 0; top: 0; width: 100%; height: auto; }
+.shared-photo { position: absolute; left: 15%; top: 15%; width: 70%; height: 70%; border-radius: 50%; object-fit: cover; }
+.shared-initial { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700; line-height: 1; }
+.shared-title { margin-top: 6px; font-size: 26px; line-height: 1.25; font-weight: 700; letter-spacing: 0.01em; overflow-wrap: anywhere; text-wrap: balance; }
+.shared-meta { font-size: 14px; color: var(--ink2); }
+.shared .nw { white-space: nowrap; }
+.shared-card { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 18px; background: var(--card); }
+.shared-card h2 { font-size: 16px; line-height: 1.4; font-weight: 700; letter-spacing: 0.01em; }
+/* Two columns; the page's script makes it one (.one) when a row would take more than two of these 20px lines. */
+.shared-lines ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; row-gap: 4px; font-size: 14px; line-height: 20px; }
+.shared-lines ul.one { grid-template-columns: minmax(0, 1fr); }
+.shared-lines li { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.shared-lines li .u { min-width: 0; overflow-wrap: anywhere; }
+.shared-lines .num { flex: none; max-width: 60%; font-family: var(--user-num); text-align: right; }
+.shared-steps ol { display: flex; flex-direction: column; gap: 6px; }
+.shared-steps li { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 1em; font-size: 14px; line-height: 1.5; }
+.shared-steps .u { white-space: pre-line; overflow-wrap: anywhere; }
+.shared-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 340px; padding-bottom: 60px; text-align: center; }
+.shared-state .shared-plate { width: 120px; height: 120px; }
 .shared-state h1 { font-size: 22px; line-height: 1.3; font-weight: 700; letter-spacing: 0.01em; }
-/* The way to the app stays at the bottom of the screen. */
+.shared-plate.faded { opacity: 0.55; }
+.shared-plate.pulse { opacity: 0.55; animation: shared-pulse 1.6s ease-in-out infinite alternate; }
+@keyframes shared-pulse { to { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .shared-plate.pulse { animation: none; } }
+.shared-wifi { width: 44px; height: 44px; fill: none; stroke: var(--ink2); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.btn.plain { min-width: 160px; background: var(--card); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line2); }
+/* The way to the app stays at the bottom of the screen while a long dish scrolls under it. */
 .shared-foot { position: sticky; bottom: 0; z-index: 2; background: var(--bg); }
 .shared-foot-in { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
 .shared-foot .btn { width: 100%; padding: 0 16px; }
