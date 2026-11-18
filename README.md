@@ -15,13 +15,18 @@ To preview, serve the folder with any static server, for example `python3 -m htt
 
 ## A shared dish
 
-`r/` is the page a dish card's QR code opens where Shiso isn't installed: `https://furthersea.org/shiso/r/?k=<key>`, the key being 16 letters and digits. Where Shiso is installed, iOS opens the app instead, because `.well-known/apple-app-site-association` in [`FurtherSea/furthersea.github.io`](https://github.com/FurtherSea/furthersea.github.io) claims `/shiso/r/` for it.
+`r/` is the page a dish card's QR code opens where Shiso isn't installed: `https://furthersea.org/shiso/r/?k=<key>`, the key being 16 letters and digits. Where Shiso is installed, iOS opens the app instead, because `.well-known/apple-app-site-association` in [`FurtherSea/furthersea.github.io`](https://github.com/FurtherSea/furthersea.github.io) claims `/shiso/r/` for it. The design is on the app's UI canvas, sections 二十七 A⑧ and 四十九 (A17, A18).
 
-- **It only offers the app.** It shows the brand, the line for a shared dish (记在食序里的一道菜 / A dish kept in Shiso) and the App Store button. It doesn't read the dish: CloudKit's web service needs an API token in the page, and the owner chose on 2026-11-16 not to put one there. The dish comes into the app once it's installed.
-- **Safari's Smart App Banner.** A script in the head writes `apple-itunes-app` with the dish's link as `app-argument`, so once Shiso is installed from the banner, the banner's Open hands the link to the app. The line under the button that says so shows only in iOS Safari.
-- **WeChat** opens links in its own browser, where neither the banner nor the app's link works. There a dimmed layer points to ··· and 在浏览器打开, and a tap puts it away. `?wechat=1` shows it anywhere, for review.
-- **Language** follows the browser: Chinese or English.
-- The page has `noindex`, keeps nothing in the browser and follows the light or dark choice made on the other pages, with no button of its own.
+- **The dish.** The page loads Apple's CloudKit JS and reads the `SharedRecipe` record named by the key from the public database of `iCloud.com.junhao.mise`, in production. Its `dish` field is the dish as JSON, as the app writes it (`SharedRecipePayload` in the app repo); `photo` is the cover photo. Quantities show as the app wrote them (`quantityText`).
+- **The API token** is the constant at the top of the page's script: the production token `shiso-web`, made in the CloudKit Console (API Access, API Tokens) on 2026-11-17. It can only read what the container lets anyone read, so it's meant to sit in the page. Its one allowed origin is `furthersea.org`, so a real dish only reads on the live site. Served from anywhere else, such as localhost, the page shows 没能打开这道菜, so `?demo=1` is the way to review it there.
+- **What the sharer wrote** goes on the page with `textContent`, never as HTML. It's set in the system's fonts (`.u`), because the Chinese font here holds only the site's own characters and a dish's name would otherwise switch fonts mid-word. The page's own words are in the HTML, so `tools/subset_fonts.py` picks them up.
+- **Language.** The page speaks the dish's language: Chinese for Simplified and Traditional dishes, English for English ones. Before the dish is read, or without one, it follows the browser.
+- **States.** The dish; 这道菜已经不再分享 when nothing is shared under the key, or the link has no key; 没连上网 or 没能打开这道菜, each with 再试一次, when the dish can't be read.
+- **Safari's Smart App Banner.** A script in the head writes `apple-itunes-app` with the dish's link as `app-argument`, so once Shiso is installed from the banner, the banner's Open hands the link to the app. The line under the button that explains this shows only in iOS Safari.
+- **WeChat** opens links in its own browser, where neither the banner nor the app's link works. There a dimmed layer points to ··· and 在浏览器打开, and a tap puts it away.
+- **Plates.** `assets/plates/<name>.svg`, named as the app stores them (`porcelain`, `blueAndWhite`, `stoneware`, `blackGlaze`, `bamboo`), are the five plates as the app draws them since version 2.1, empty. A dish without a photo gets its name's first character on its plate. The home page's plates, named in pinyin, are older drawings with food on them.
+- **Review without CloudKit.** `r/?demo=1` shows the dish on the canvas, from `r/demo.js`. Add `lang=en` for its English twin, `photo=0` for the plate without a photo, or `wechat=1` for WeChat's layer. `demo=gone` and `demo=offline` show those states.
+- The page has `noindex`, keeps nothing in the browser, and follows the light or dark choice made on the other pages, with no button of its own.
 
 ## Names
 
