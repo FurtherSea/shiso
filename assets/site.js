@@ -1,5 +1,5 @@
 // 食序 Shiso website: remembers the language and the light or dark choice, puts the contact address together, and on the
-// home page turns the first screen's text, runs the plate palette and moves the features' rows of screens.
+// home page turns the first screen's text, runs the plate palette and moves the screens in the features' phones.
 (function () {
   'use strict';
 
@@ -302,9 +302,9 @@
     };
   }
 
-  /* A feature's row of screen cards. It swipes on its own (touch, trackpad, keyboard); the card nearest the middle is
-     the one shown: bright, with its dot and its note marked. The buttons, the dots and the notes bring a card to the
-     middle. */
+  /* A feature's phone. Its screen swipes on its own (touch, trackpad, keyboard); the screen on show has its dot marked
+     and its note open. The dots and the notes bring their screen. The open note is held at the height of the longest
+     (--more-h), so the text keeps its place, centred beside the phone, whichever note is open. */
   function createShots(feature) {
     var view = feature.ownerDocument.defaultView;
     var track = feature.querySelector('.shots');
@@ -314,6 +314,8 @@
     var steps = Array.prototype.slice.call(feature.querySelectorAll('[data-step]'));
     var current = -1;
     var frame = 0;
+    var target = -1;
+    var unlock = 0;
 
     function middle() {
       var centre = track.scrollLeft + track.clientWidth / 2;
@@ -345,14 +347,32 @@
       i = Math.max(0, Math.min(cards.length - 1, i));
       var card = cards[i];
       var still = view.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // The screens passed on the way don't open their notes: the one picked stays open until its screen arrives, or
+      // the visitor takes over the swipe.
+      target = i;
+      view.clearTimeout(unlock);
+      unlock = view.setTimeout(release, 1200);
       track.scrollTo({ left: card.offsetLeft + card.offsetWidth / 2 - track.clientWidth / 2, behavior: still ? 'auto' : 'smooth' });
       show(i);
     }
 
+    function release() {
+      target = -1;
+      view.clearTimeout(unlock);
+      show(middle());
+    }
+
     track.addEventListener('scroll', function () {
       view.cancelAnimationFrame(frame);
-      frame = view.requestAnimationFrame(function () { show(middle()); });
+      frame = view.requestAnimationFrame(function () {
+        var i = middle();
+        if (target >= 0 && i !== target) return;
+        if (target >= 0) release(); else show(i);
+      });
     }, { passive: true });
+    ['pointerdown', 'wheel', 'keydown'].forEach(function (type) {
+      track.addEventListener(type, function () { if (target >= 0) { target = -1; view.clearTimeout(unlock); } }, { passive: true });
+    });
     steps.forEach(function (button) {
       button.addEventListener('click', function () { go(current + Number(button.dataset.step)); });
     });
@@ -361,6 +381,25 @@
     });
     current = -1;
     show(0);
+
+    var list = feature.querySelector('.notes');
+    var mores = Array.prototype.slice.call(feature.querySelectorAll('.note-more > span > span'));
+    var width = -1;
+    function reserve() {
+      list.style.setProperty('--more-h', '0px');
+      var tallest = 0;
+      mores.forEach(function (el) { tallest = Math.max(tallest, el.offsetHeight); });
+      list.style.setProperty('--more-h', tallest + 'px');
+    }
+    reserve();
+    if (view.ResizeObserver) {
+      new view.ResizeObserver(function () {
+        if (list.clientWidth === width) return;
+        width = list.clientWidth;
+        reserve();
+      }).observe(list);
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserve);
   }
 
   /* The contact address. It's never in a page in one piece, so a scraper reading the HTML finds no name@domain address
