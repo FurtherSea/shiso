@@ -9,7 +9,7 @@ The website of Shiso (食序 in Chinese), an app for iPhone: home, privacy polic
 | Support | `support/index.html` | `zh/support/index.html` |
 | A shared dish | `r/index.html`, both languages | |
 
-`assets/site.css` holds the styles. Its colors, type and components come from the app (Design Direction in the app repo's `agents.md`). `assets/site.js` remembers the language and the light or dark choice, puts the contact address together (see Contact below), runs the plate palette on the home page (every plate's place comes from one number, so moving, swiping and spinning all glide along the arc), and moves the features' rows of screens. English is the default: a visitor who picks Chinese is sent to the Chinese page from then on, and the choice stays in that browser.
+`assets/site.css` holds the styles. Its colors, type and components come from the app (Design Direction in the app repo's `agents.md`). `assets/site.js` remembers the language and the light or dark choice, puts the contact address together (see Contact below), runs the plate palette on the home page (every plate's place comes from one number, so moving, swiping and spinning all glide along the arc), and moves the screens in the features' phones. English is the default: a visitor who picks Chinese is sent to the Chinese page from then on, and the choice stays in that browser.
 
 To preview, serve the folder with any static server, for example `python3 -m http.server`.
 
@@ -40,28 +40,28 @@ The slogan stays put as the page's `h1`, set small. Under it a big title and a l
 
 ## The features
 
-The home page shows three features, in this order of importance: the recipe library (`#library`), dish photos (`#photos`) and sharing (`#share`). As on the first site, each is a row with the text on one side and the app on the other, the sides taking turns (`.feat`, `.feat.flip`).
+The home page shows three features, in this order of importance: the recipe library (`#library`), dish photos (`#photos`) and sharing (`#share`). Each is a row of two even halves, the sides taking turns (`.feat`, `.feat.flip`): the text on one, a phone on a soft stage on the other.
 
-- **The text:** an eyebrow, a heading and a line, then a note for each screen (`.notes`).
-- **The screens:** cards of the app's real 2.1 screens, in a row that swipes on its own while the text stays put. The card in the middle is bright, and its neighbours peek in at the sides.
-- **Moving the row:** the note and the dot for the middle card are marked. Picking a note, a dot or an arrow brings its card to the middle (`createShots` in `assets/site.js`).
-- **On phones** the row runs edge to edge and is swiped, with the dots under it.
+- **The text:** an eyebrow, a heading and a line, then a note for each screen (`.notes`). One note is open at a time, the one for the screen on show.
+- **The phone:** an iPhone drawn in CSS (`.phone`) around the app's real 2.1 screens. The screen swipes on its own (touch, trackpad, keyboard); the dots under the phone and the notes bring their screen (`createShots` in `assets/site.js`). The screens passed on the way don't open their notes.
+- **One centre line:** the phone sits in the middle of its stage, with as much room above it as below (the dots sit in the room below), and the text sits in the middle of the row, so the phone and the text share a centre line. The open note is held at the height of the longest (`--more-h`), so the text never moves when another note opens.
+- **Below 960 px** the row becomes one column: the heading, then the phone, then its notes right under it.
 
-The cards are `assets/shots/<en|zh>/<slot>.webp`, 800 × 1040 at quality 84, cut from the app's 2.1 screenshots (iPhone 17 Pro Max, 1320 × 2868). Each shows a 1320 × 1716 part of its screen, the part the card is about, scaled down. On 拍一道菜 the keyboard was replaced with the sheet's blank background, as with it dismissed. The captures come from the app repo's screenshot pipeline (`TEST_RUNNER_SITE_SCREENSHOTS=en,zh-Hans`).
+The screens are `assets/shots/<en|zh>/<slot>.webp`, 600 × 1304 at quality 84: the app's 2.1 screenshots (iPhone 17 Pro Max, 1320 × 2868) scaled down whole, status bar and all. The captures come from the app repo's screenshot pipeline (`TEST_RUNNER_SITE_SCREENSHOTS=en,zh-Hans`); the Chinese page uses the Simplified ones.
 
-| Slot | Shows | Top of the crop |
+| Slot | Shows | Capture |
 | --- | --- | --- |
-| `library-recipes` | 食谱库, the dishes on their plates | 144 |
-| `library-kitchen` | 厨房, ingredients with their units and stores | 144 |
-| `library-recipe` | 编辑食谱, the ingredients and the steps with their photos | 144 |
-| `library-plan` | 餐食, the days ahead and their meals | 144 |
-| `library-shopping` | 采购, the list grouped by store | 144 |
-| `photos-camera` | The plate camera | 560 |
-| `photos-album` | 成品照, a dish's photos over time | 1152 |
-| `photos-snap` | 拍一道菜, then 是哪道菜？ or a new dish | 190 |
-| `share-lyric` | 分享这道菜 with the lyric card and its QR code | 216 |
-| `share-cards` | The numbered cards a long lyric card runs on over | 216 |
-| `share-import` | 导入这道菜, a shared dish opening in the app | 192 |
+| `library-recipes` | 食谱库, the dishes on their plates | `1-recipes` |
+| `library-kitchen` | 厨房, ingredients with their units and stores | `6-kitchen` |
+| `library-recipe` | 编辑食谱, the ingredients and the steps with their photos | `4-recipe` |
+| `library-plan` | 餐食, the days ahead and their meals | `8-plan` |
+| `library-shopping` | 采购, the list grouped by store | `7-shopping` |
+| `photos-camera` | The plate camera | `3-camera` |
+| `photos-album` | 成品照, a dish's photos over time | `2-photos` |
+| `photos-snap` | 拍一道菜, then 是哪道菜？ or a new dish | `9-snap` |
+| `share-lyric` | 分享这道菜 with the recipe card and its QR code | `5-share` |
+| `share-cards` | The long recipe card, running on over several cards | `10-cards` |
+| `share-import` | 导入这道菜, a shared dish opening in the app | `11-import` |
 
 ## Changing text
 

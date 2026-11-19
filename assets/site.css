@@ -233,48 +233,49 @@ body { margin: 0; }
 .dish-meta { font-size: 14px; color: var(--ink2); }
 
 /* —— The three features ——
-   As on the first site: text on one side, the app on the other, sides taking turns. The text names what the screens show
-   (.notes); the screens are cards of the app's real 2.1 screens, cropped to what they're about, in a row that swipes on
-   its own while the text stays put. The note for the card in the middle is marked, and picking a note brings its card
-   (assets/site.js). */
+   Two even halves, sides taking turns (website canvas, 首页功能区, option A). One half has the title and its notes, which
+   open one at a time; the other a phone on a soft stage showing the app's real 2.1 screens. The screen swipes on its
+   own; the open note is the one for the screen on show, and picking a note or a dot brings its screen (assets/site.js).
+   The phone sits in the middle of its stage and the text in the middle of the row, so both share one centre line. The
+   open note keeps the height of the longest (--more-h, set by site.js), so nothing moves when another one opens. */
 .feats { padding-top: clamp(40px, 6cqw, 88px); scroll-margin-top: 8px; }
-.feat { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: clamp(48px, 7cqw, 104px); padding: clamp(44px, 5cqw, 72px) 0; scroll-margin-top: 8px; }
-.feat.flip { grid-template-columns: auto minmax(0, 1fr); }
+.feat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; column-gap: clamp(48px, 6cqw, 88px); padding: clamp(44px, 5cqw, 72px) 0; scroll-margin-top: 8px; }
 .feat.flip .feat-text { order: 2; }
 .eyebrow { display: inline-flex; align-items: center; gap: 6px; height: 20px; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--pri); }
 .feat h2, .priv h2, .end h2 { font-size: clamp(32px, 3.5cqw, 48px); line-height: 1.16; font-weight: 700; letter-spacing: -0.006em; }
 .zh .feat h2, .zh .priv h2, .zh .end h2 { letter-spacing: 0.02em; }
 .feat h2 { margin-top: 10px; }
 .sub { margin-top: 10px; font-size: clamp(16px, 1.3cqw, 18px); line-height: 1.5; color: var(--ink2); text-wrap: pretty; }
-.notes { margin-top: 22px; }
-.notes li + li { border-top: 1px solid var(--line); }
-.note { position: relative; display: block; width: 100%; padding: 12px 0 13px 18px; text-align: left; border-radius: 0; }
-.note::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 15px; width: 3px; border-radius: 2px; background: transparent; transition: background-color .25s ease; }
-.note b { display: block; font-size: 16px; font-weight: 600; line-height: 1.35; transition: color .25s ease; }
-.note span { display: block; margin-top: 2px; font-size: 15px; line-height: 1.45; color: var(--ink2); text-wrap: pretty; }
-.note:hover b { color: var(--pri); }
-.note[aria-current="true"]::before { background: var(--pri); }
-.note[aria-current="true"] b { color: var(--pri); }
-/* The cards: 400 × 520, the one in the middle bright, its neighbours peeking in at the sides. */
-.show { --card: 400px; position: relative; width: calc(var(--card) + 120px); }
-.shots { position: relative; display: flex; gap: 20px; padding: 20px calc((100% - var(--card)) / 2) 52px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 34px, #000 calc(100% - 34px), transparent); mask-image: linear-gradient(90deg, transparent, #000 34px, #000 calc(100% - 34px), transparent); }
+.notes { margin-top: 28px; border-bottom: 1px solid var(--line); }
+.notes li { border-top: 1px solid var(--line); }
+.note { display: block; width: 100%; padding: 15px 0 16px; text-align: left; border-radius: 0; }
+.note b { display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 17px; font-weight: 600; line-height: 1.35; color: var(--ink2); transition: color .25s ease; }
+.note b::after { content: ""; flex: none; width: 7px; height: 7px; margin-right: 4px; border-right: 1.8px solid currentColor; border-bottom: 1.8px solid currentColor; opacity: 0.55; transform: translateY(-2px) rotate(45deg); transition: transform .3s ease; }
+.note:hover b, .note[aria-current="true"] b { color: var(--ink); }
+.note[aria-current="true"] b::after { transform: translateY(2px) rotate(-135deg); }
+.note-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+.note[aria-current="true"] .note-more { grid-template-rows: 1fr; }
+.note-more > span { min-height: 0; overflow: hidden; }
+.note-more > span > span { display: block; min-height: var(--more-h, 0px); padding: 6px 32px 0 0; font-size: 15px; line-height: 1.5; color: var(--ink2); text-wrap: pretty; }
+/* The stage: as much room above the phone as below it; the dots sit in the room below. */
+.show { --pw: clamp(224px, 19cqw, 258px); --room: 64px; position: relative; display: grid; justify-items: center; padding: var(--room) 0; border-radius: 40px; background: color-mix(in srgb, var(--pri) 10%, var(--bg)); }
+/* An iPhone drawn around a full screen: --pw is the screen's width. */
+.phone { position: relative; width: var(--pw); padding: calc(var(--pw) * .034); border-radius: calc(var(--pw) * .174); background: #1C1C1E; box-sizing: content-box; box-shadow: 0 0 0 1px var(--line), 0 30px 60px -16px var(--panel-shadow), 0 12px 24px -10px var(--panel-shadow); }
+.phone::after { content: ""; position: absolute; z-index: 1; top: calc(var(--pw) * .059); left: 50%; width: calc(var(--pw) * .284); height: calc(var(--pw) * .084); border-radius: 999px; background: #000000; transform: translateX(-50%); pointer-events: none; }
+.shots { position: relative; display: flex; aspect-ratio: 600 / 1304; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; clip-path: inset(0 round calc(var(--pw) * .14)); }
 .shots::-webkit-scrollbar { display: none; }
-.shots:focus-visible { outline-offset: -4px; }
-.shot { flex: none; width: var(--card); scroll-snap-align: center; opacity: 0.4; transform: scale(0.94); transition: opacity .35s ease, transform .35s ease; }
-.shot.on { opacity: 1; transform: none; }
-.shot img { width: 100%; height: auto; border-radius: 32px; background: var(--card); box-shadow: 0 0 0 1px var(--line), 0 14px 30px var(--panel-shadow); -webkit-user-drag: none; user-select: none; }
-.show-ctl { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: -14px; }
-.show-ctl .ib { color: var(--ink2); }
-.show-ctl .ib:hover:not(:disabled) { color: var(--ink); }
-.show-ctl .ib:disabled { opacity: 0.3; cursor: default; }
-.show-dots { display: flex; align-items: center; }
+.shots:focus-visible { outline: none; }
+.phone:has(.shots:focus-visible) { outline: 2px solid var(--pri); outline-offset: 4px; }
+.shot { flex: none; width: 100%; scroll-snap-align: center; scroll-snap-stop: always; }
+.shot img { width: 100%; height: auto; -webkit-user-drag: none; user-select: none; }
+.show-dots { position: absolute; left: 0; right: 0; bottom: calc(var(--room) / 2 - 14px); display: flex; justify-content: center; }
 .show-dot { position: relative; width: 16px; height: 28px; display: grid; place-items: center; cursor: pointer; transition: width .3s ease; }
 .show-dot::before { content: ""; width: 8px; height: 8px; border-radius: 4px; background: var(--line2); transition: width .3s ease, background-color .3s ease; }
 .show-dot::after { content: ""; position: absolute; inset: -8px 0; }
 .show-dot.on { width: 32px; }
 .show-dot.on::before { width: 24px; background: var(--pri); }
 @media (prefers-reduced-motion: reduce) {
-  .shot, .show-dot, .show-dot::before { transition: none; }
+  .note b::after, .note-more, .show-dot, .show-dot::before { transition: none; }
 }
 
 /* —— The rest of the home page —— */
@@ -410,11 +411,11 @@ body { margin: 0; }
 
 /* —— Narrower pages —— */
 @container site (max-width: 960px) {
-  .feat, .feat.flip { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
-  .feat.flip .feat-text { order: 0; }
-  .show { justify-self: center; }
-  .notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
-  .notes li, .notes li + li { border-top: 1px solid var(--line); }
+  /* One column: the title, then the phone, then its notes right under it. */
+  .feat { grid-template-columns: minmax(0, 1fr); row-gap: 28px; max-width: 600px; margin: 0 auto; }
+  .feat-text { display: contents; }
+  .show { order: 1; }
+  .notes { order: 2; margin-top: -8px; }
   .also { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .doc { grid-template-columns: minmax(0, 1fr); }
   .toc { display: none; }
@@ -438,12 +439,7 @@ body { margin: 0; }
   .l3, .l4 { --x: -62cqw; --y: -110px; --s: .3; opacity: 0; pointer-events: none; }
   .r3, .r4, .out { --x: 62cqw; --y: -110px; --s: .3; opacity: 0; pointer-events: none; }
   .feat { padding: 40px 0; }
-  .notes { grid-template-columns: minmax(0, 1fr); }
-  /* On a phone the row runs edge to edge and is swiped; the buttons step aside for the dots. */
-  .show { --card: min(74cqw, 320px); width: auto; justify-self: stretch; margin: 0 -20px; }
-  .shots { -webkit-mask-image: none; mask-image: none; }
-  .shot img { border-radius: 26px; }
-  .show-ctl .ib { display: none; }
+  .show { --pw: min(58cqw, 236px); --room: 48px; border-radius: 32px; }
   .also { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 32px; }
   .priv { grid-template-columns: minmax(0, 1fr); }
   .short { grid-template-columns: minmax(0, 1fr); padding: 6px 18px; }
